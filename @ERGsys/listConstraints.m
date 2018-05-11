@@ -17,7 +17,7 @@ for i=1:l
     elseif all(all(-beta_v(:,i)'==this.G))
         disp(['#' num2str(i) ' I: u >= ' num2str(h(i))])
     else
-        disp(['#' num2str(i) 'beta_x=[' num2str(beta_x(:,i)') '], beta_v=[' num2str(beta_v(:,i)') ']'])
+        disp(['#' num2str(i) '[' num2str(beta_x(:,i)') ']*x + [' num2str(beta_v(:,i)') ']*v <=' num2str(h(i))])
     end
     disp(' ')
 end
