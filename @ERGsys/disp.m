@@ -36,8 +36,9 @@ disp(Acl)
 disp(' ')
 disp('Bcl=')
 disp(Bcl)
-this.listConstraints
-
+if ~isempty(this.h)
+    this.listConstraints
+end
 if ~isempty(P)
     disp('-----QUADRATIC LYAPUNOV FUNCTIONS-----')
     disp(' ')
@@ -46,16 +47,20 @@ if ~isempty(P)
         disp(P{i})
     end
 end
-
-disp(' ')
-disp('-----CONSTRAINT MATRICES-----')
-disp(' ')
-disp('beta_x=')
-disp(this.beta_x)
-disp(' ')
-disp('beta_v=')
-disp(this.beta_v)
-disp(' ')
-disp('h=')
-disp(this.h)
+if ~isempty(this.h)
+    disp(' ')
+    disp('-----CONSTRAINT MATRICES-----')
+    disp(' ')
+    disp('beta_x=')
+    disp(this.beta_x)
+    disp(' ')
+    disp('beta_v=')
+    disp(this.beta_v)
+    disp(' ')
+    disp('h=')
+    disp(this.h)
+end
+if this.isRegional
+    disp('-----REGION-----')
+    disp(this.region)
 end

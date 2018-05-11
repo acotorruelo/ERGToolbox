@@ -1,5 +1,5 @@
 function listConstraints(this)
-%LISTCONSTRAINTS Display a list of the constraints of the ERGsys object
+%LISTCONSTRAINTS Display a list of the constraints of the ERGsys object.
 
 %Retrieve system constraints
 beta_x=this.beta_x;
@@ -10,15 +10,14 @@ disp(' ')
 disp('-----LIST OF CONSTRAINTS-----')
 disp(' ')
 for i=1:l
-    if prod(beta_v(i)==0)
+    if prod(beta_v(:,i)==0)
         disp(['#' num2str(i) ' S: [' num2str(beta_x(:,i)') ']*x <= ' num2str(h(i))])
+    elseif all(all(beta_v(:,i)'==this.G))
+        disp(['#' num2str(i) ' I: u <= ' num2str(h(i))])
+    elseif all(all(-beta_v(:,i)'==this.G))
+        disp(['#' num2str(i) ' I: u >= ' num2str(h(i))])
     else
-        if beta_v(i)==this.G
-            disp(['#' num2str(i) ' I: u <= ' num2str(h(i))])
-        else
-            disp(['#' num2str(i) ' I: u >= ' num2str(h(i))])
-        end
+        disp(['#' num2str(i) 'beta_x=[' num2str(beta_x(:,i)') '], beta_v=[' num2str(beta_v(:,i)') ']'])
     end
-end
-disp(' ')
+    disp(' ')
 end

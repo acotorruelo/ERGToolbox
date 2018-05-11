@@ -1,18 +1,11 @@
 function out = addStateConstraint(this,c,b)
-%ADDSTATECONSTRAINT Add a state constraint to a ERGsys object 
-%   Description:
-%       Add an input constraint to the ERGsys object in the form 
-%       c*x <= b
+%ADDSTATECONSTRAINT Add a state constraint to a ERGsys object.
 %
-%   Parameters:
-%       this    ERGsys object to which the constraint is to be added
-%
-%       c       c matrix
-%
-%       b       b matrix
+%   sys=sys.ADDSTATECONSTRAINT(c,b) adds a state constraint in the form
+%   c*x <= b to an instance of ERGsys, sys.
 
 n=size(this.Acl,1);
-ny=size(this.Bcl,2);
+ny=size(this.C,1);
 %Check that the constraint is of apropriate size
 if size(c,1)~=n
     error('The constraint matrix must have the same number of rows as A')

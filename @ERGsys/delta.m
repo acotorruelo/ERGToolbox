@@ -1,17 +1,10 @@
-function [d,gammav,Vv] = delta(this,x,v)
-%DELTA Calculate the Dynamic Safety Margin
-%   Description:
-%       Calculate the Dynamic Safety Margin for the ERGsys object for a
-%       given state x and applied reference v. For this to be computed, the
-%       Lyapunov functions of the system must be calculated first.
+function d = delta(this,x,v)
+%DELTA Calculate the Dynamic Safety Margin.
 %
-%   Parameters:
-%       this    ERGsys of which the Dynamic safety margin are to be
-%               calculated
-%
-%       x       Value of the state variable
-%
-%       v       Value of the applied reference
+%   d=sys.DELTA(x,v) calculates the Dynamic Safety Margin for the instance
+%   of ERGsys, sys, for a given state x and applied reference v. For this
+%   to be computed, the Lyapunov functions of the system must be calculated
+%   first with the method calculateQuadraticLyapunov().
 
 %Get the system parameters
 P=this.P;

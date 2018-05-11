@@ -1,16 +1,10 @@
 function out = addInputConstraint(this,ul,b)
-%ADDINPUTCONSTRAINT Add an input constraint to an ERGsys object
-%   Description:
-%       This function adds an input constraint to an ERGsys object, in
-%       the form u >= umin or u <= umax
+%ADDINPUTCONSTRAINT Add an input constraint to an ERGsys object.
 %
-%   Parameters:
-%       this    ERGsys object to which the constraint is to be added
-%
-%       ul      Upper or lower bound of the control signal, can only take
-%               values 'u' or 'l' for upper and lower bounds, respectively.
-%
-%       b       Upper or lower bound
+%   sys=sys.ADDINPUTCONSTRAINT(ul,b) adds an input constraint  in the form 
+%   u >= b or u <= b to an instance of ERGsys, sys. The sign of the
+%   inequality is set by the argument ul, which can only take values 'u' or
+%   'l' for upper and lower bounds, respectively.
 
 %Add entries to the beta_x and beta_v matrices depending on the value of ul
 if isempty(this.A)

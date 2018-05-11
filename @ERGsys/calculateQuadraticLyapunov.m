@@ -1,15 +1,18 @@
-function out = calculateQuadraticLyapunov(this)
+function out = calculateQuadraticLyapunov(this,varargin)
 %CALCULATEQUADRATICLYAPUNOV Calculate Lyapunov functions for every
-%constraint in the ERGsys object
-%   Description:
-%       Calculate Lyapunov function for every constraint in the ERGsys
-%       object. This function returns a cell object with as many entries as
-%       constraints in the ERGsys object. If the ERGsystem object has no
-%       constraints, it calculates the largest Lyapunov function 
-%       A'P + P*A <0
+%constraint in the ERGsys object.
 %
-%   Parameters:
-%       this    ERGsys of which the Lyapunov functions are to be calculated
+%   sys=sys.CALCULATEQUADRATICLYAPUNOV calculates the Lyapunov function for
+%   every constraint in the instance of ERGsys, sys. This function returns
+%   a cell object with as many entries as constraints there are in sys. If
+%   sys has no constraints, it calculates the largest ellipsoid (x'*P*x<=1)
+%   such that Acl'*P + P*Acl < 0
+
+if nargin>1
+    solver=varargin{2};
+else
+    solver='sdpt3';
+end
 
 %Retrieve system parameters
 beta_x=this.beta_x;
@@ -27,30 +30,32 @@ end
 
 % LMI problem definition
 
-P=sdpvar(n,n,'symmetric');
-fcn=trace(P);
+Q=sdpvar(n,n,'symmetric');
+fcn=-logdet(Q);
 epsilon=1e-4;
+options=sdpsettings('solver',solver,'verbose',0);
 if ~l
     %If there are no constraints, calculate the solution to the Lyapunov
     %equation
     cons=[
-        A'*P+P*A<=-epsilon
-        P>=epsilon;
+        Q*A'+A*Q<=-epsilon
+        Q>=epsilon;
         ];
     
-    optimize(cons,fcn);
-    Pcell{1}=double(P);
+    optimize(cons,fcn,options);
+    Pcell{1}=double(Q);
 else
     %If there are constraints, calculate the Lyapunov function for every
     %constraint
     for i=1:l
         cons=[
-            A'*P+P*A<=-epsilon
-            P>=beta_x(:,i)*beta_x(:,i)'/norm(beta_x(:,i))^2;
+            Q*A'+A*Q<=-epsilon
+            [Q Q*beta_x(:,i);
+            beta_x(:,i)'*Q 1]>=0
             ];
-        optimize(cons,fcn);
+        optimize(cons,fcn,options);
         %Store the P matrix
-        Pcell{i}=double(P);
+        Pcell{i}=inv(double(Q));
         if ~all(eig(Pcell{i})>0)
             %If not semidefinite, terminate execution
             error(['Matrix P for constraint ' num2str(i) ' is not positive semidefinite.'])
