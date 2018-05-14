@@ -2,7 +2,7 @@ classdef ERGsys
     %ERGSYS Defines a linear system controlled by an Explicit Reference
     %Governor (ERG). 
     %
-    %   VERSION 0.5
+    %   VERSION 1.0
     %
     %   Constructor:
     %       ERGSYS(A,B,C,D,F,G) - Creates the ERGsys object from the open
