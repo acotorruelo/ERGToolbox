@@ -1,5 +1,5 @@
-# ERGToolbox
-MATLAB based toolbox for the synthesis of Explicit Reference Governors (ERG). For information on the project, please visit [the site of the project](https://saasofcc.wordpress.com/)
+# ERGToolbox v1.0
+MATLAB based toolbox for the synthesis of Explicit Reference Governors (ERG). For further information on the project, please visit [the site of the project](https://saasofcc.wordpress.com/)
 ## Overview
 The ERGT provides an user friendly way to design and simulate Explicit Reference Governors. In its current version, the ERGT supports linear systems subject to linear state and input constraints and linear systems subject to union of linear state and input constraints.
 ## How to install
