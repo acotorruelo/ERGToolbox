@@ -7,6 +7,8 @@ The ERGT provides an user friendly way to design and simulate Explicit Reference
 ERGT requires the installation of [MPT3](http://people.ee.ethz.ch/~mpt/3/). Additionally, the installation of [SDPT3](http://www.math.nus.edu.sg/~mattohkc/sdpt3.html) is advised, although not necessary.
 ### Installation
 To install the ERG Toolbox, just run the script named `ERGTinstall.m`. Choose in the window the directory in which ERGT will be installed, the script will copy all necessary files and will add the directory to MATLAB's path. Alternatively, the user can copy all files to a location of their choosing and subsequently add the location to MATLAB's path.
+## Usage
+For a thorough guide on the theory and implementation of the ERGT, the reader is referred to the publication. The ERGT also includes two example scripts, found in the directory `\examples\`. These scripts will run the user through the functionalities of the ERGT via practical examples.
 ## Citing ERGT
 If you use the ERG Toolbox, please use the following BibTeX entry:
 ```
