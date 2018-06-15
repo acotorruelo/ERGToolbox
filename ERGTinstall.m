@@ -8,14 +8,6 @@ disp('Copying files...')
 if ~status
     error(['Error copying files: ' msg])
 end
-[status,msg]=copyfile('@ERGregion',[installpath '\@ERGregion']);
-if ~status
-    error(['Error copying files: ' msg])
-end
-[status,msg]=copyfile('@ERGsys',[installpath '\@ERGsys']);
-if ~status
-    error(['Error copying files: ' msg])
-end
 [status,msg]=copyfile('simulink',[installpath '\simulink']);
 if ~status
     error(['Error copying files: ' msg])
