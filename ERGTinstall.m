@@ -4,7 +4,7 @@
 
 installpath=uigetdir(pwd,'Choose where ERGT is going to be installed');
 disp('Copying files...')
-[status,msg]=copyfile('@ERGmultiregion',[installpath '\@ERGmultiregion']);
+[status,msg]=copyfile('@ERGController',[installpath '\@ERGController']);
 if ~status
     error(['Error copying files: ' msg])
 end
