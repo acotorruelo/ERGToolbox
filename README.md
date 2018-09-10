@@ -1,4 +1,4 @@
-# ERGToolbox v1.1
+# ERGToolbox v1.2
 MATLAB based toolbox for the synthesis of Explicit Reference Governors (ERG). For further information on the project, please visit [the site of the project](https://saasofcc.wordpress.com/).
 ## Changelog
 To view the changelog, click [here](https://wordpress.com/page/saasofcc.wordpress.com/66).
