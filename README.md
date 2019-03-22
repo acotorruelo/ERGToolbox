@@ -34,3 +34,6 @@ intersection of linear constraints. The paper presents a simple example on
 an aerial robotic application."
 }
 ```
+
+## Older versions
+If you are using an older version of MATLAB and need the ERGT Simulink library to be exported to such a version, do not hesitate to [contact me](mailto:acotorru@ulb.ac.be) to port it to your version.
