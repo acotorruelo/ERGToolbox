@@ -1,7 +1,7 @@
 classdef ERGController < handle
     %ERGController Defines an Explicit Reference Governor (ERG) for a linear system.
     %
-    %   VERSION 1.2.1
+    %   VERSION 1.2.2
     %
     %   Constructor:
     %
