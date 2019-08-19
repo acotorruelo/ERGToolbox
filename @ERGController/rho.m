@@ -16,8 +16,9 @@ nc=size(this.beta_x,2);
 xv=this.CL*v;
 for i=1:nc
     c=-this.beta_x(:,i)'*xv-this.beta_v(:,i)'*v+this.h(i);
-    if c<this.zeta
-        rep=rep+.5*(c-this.zeta)^2/(this.zeta-this.delta);
+    cv=(-this.beta_x(:,i)'*this.CL-this.beta_v(:,i)')';
+    if norm(cv)~=0
+        rep=rep+max((this.zeta-c)/(this.zeta-this.delta),0)*cv/norm(cv);
     end
 end
 out=att+rep;

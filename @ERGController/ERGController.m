@@ -76,6 +76,7 @@ classdef ERGController < handle
         beta_v % beta_v constraint matrix
         h % h constraint vector
         P % Quadratic Lyapunov functions
+        Gden %Gamma denominator, to avoid unnecesary inversions
         Preg % Quadratic Lyapunov functions for polyhedral constraints
         poly % Polyhedral constraint
         conn % Connection matrix
@@ -154,6 +155,7 @@ classdef ERGController < handle
             this.CL=-this.Acl\this.Bcl;
             
             this.P={};
+            this.Gden=[];
             this.poly=[];
         end
         
@@ -170,7 +172,7 @@ classdef ERGController < handle
             %   constraint to the ERGController object erg in the form
             %   alpha_x*x+alpha_u*u<=h and solves the Lyapunov equation
             %   associated to it with the solver passed as an argument.
-            if nargin>3
+            if nargin>4
                 solver=varargin{1};
             else
                 solver=[];
@@ -184,7 +186,8 @@ classdef ERGController < handle
             if isrow(alpha_u)
                 alpha_u=alpha_u';
             end
-            this.beta_x=[this.beta_x (alpha_x'+alpha_u'*this.F)'];
+            bx=(alpha_x'+alpha_u'*this.F)';
+            this.beta_x=[this.beta_x bx];
             this.beta_v=[this.beta_v (alpha_u'*this.G)'];
             this.h=[this.h h];
             
@@ -193,6 +196,7 @@ classdef ERGController < handle
             else
                 this.computeIndividualLyap((alpha_x'+alpha_u'*this.F)');
             end
+            this.Gden=[this.Gden bx'/this.P{end}*bx];
         end
         
         %Add constraint in beta form
@@ -208,7 +212,7 @@ classdef ERGController < handle
             %   constraint to the ERGController object erg in the form
             %   beta_x*x+beta_u*u<=h and solves the Lyapunov equation
             %   associated to it with the solver passed as an argument.
-            if nargin>3
+            if nargin>4
                 solver=varargin{1};
             else
                 solver=[];
@@ -228,6 +232,7 @@ classdef ERGController < handle
             else
                 this.computeIndividualLyap(beta_x');
             end
+            this.Gden=[this.Gden beta_x'/this.P{end}*beta_x];
         end
         
         %Add input constraint
@@ -274,6 +279,7 @@ classdef ERGController < handle
             else
                 this.computeIndividualLyap(this.F');
             end
+            this.Gden=[this.Gden this.F/this.P{end}*this.F'];
         end
         
         %Add Polyhedral constraint
@@ -371,6 +377,7 @@ classdef ERGController < handle
             else
                 this.computeIndividualLyap(c);
             end
+            this.Gden=[this.Gden c'/this.P{end}*c];
         end
         
         %Compute DSM
