@@ -190,7 +190,6 @@ classdef ERGController < handle
             this.beta_x=[this.beta_x bx];
             this.beta_v=[this.beta_v (alpha_u'*this.G)'];
             this.h=[this.h h];
-            
             if ~isempty(solver)
                 this.computeIndividualLyap((alpha_x'+alpha_u'*this.F)',solver);
             else
@@ -260,26 +259,35 @@ classdef ERGController < handle
             else
                 solver=[];
             end
+            m=size(this.B,2);
             %Add entries to the beta_x and beta_v matrices depending on the value of ul
+            if isrow(b)
+                b=b';
+            end
             if isempty(this.A)
-                error('Input constraints are only allowed if a system is defined by its open loop matrices (A,B,F,G)')
+                error('Input constraints are only allowed if a system is defined by its open loop matrices (A,B,F,G).')
+            elseif length(b)~=m
+                error('The dimension of the vector b must be the same as the number of inputs.')
             elseif strcmp(minmax,'max')
                 this.beta_x=[this.beta_x this.F'];
                 this.beta_v=[this.beta_v this.G'];
-                this.h=[this.h b];
+                this.h=[this.h b'];
             elseif strcmp(minmax,'min')
                 this.beta_x=[this.beta_x -this.F'];
                 this.beta_v=[this.beta_v -this.G'];
-                this.h=[this.h -b];
+                this.h=[this.h -b'];
             else
-                error('Parameter ul can only take values max or min')
+                error('Parameter ul can only take values max or min.')
             end
-            if ~isempty(solver)
-                this.computeIndividualLyap(this.F',solver);
-            else
-                this.computeIndividualLyap(this.F');
+            
+            for i=1:m
+                if ~isempty(solver)
+                    this.computeIndividualLyap(this.F(i,:)',solver);
+                else
+                    this.computeIndividualLyap(this.F(i,:)');
+                end
+                this.Gden=[this.Gden this.F(i,:)/this.P{end}*this.F(i,:)'];
             end
-            this.Gden=[this.Gden this.F/this.P{end}*this.F'];
         end
         
         %Add Polyhedral constraint
@@ -452,6 +460,7 @@ classdef ERGController < handle
                     Pnew{cont}=this.P{i};
                 end
             end
+            this.P=Pnew;
         end
         
         %Set parameter
